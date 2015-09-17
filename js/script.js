@@ -1,22 +1,27 @@
+var showcat = function (cat) {
+	$('#catimg').attr('src', cat.imgsrc);
+	$('#catimg').unbind('click');
+	$('#catimg').click(function () {
+		cat.clicks++;
+		$('#catclicks').text(cat.clicks);
+	});
+	$('#catclicks').text(cat.clicks);
+};
+
 $(document).ready(function () {
 	for (var i = 0; i < cats.length; i++) {
-    $catdiv = $('<div class="col-md-6">');
-    $catdiv.append('<h1 class="text-center">' + cats[i].name + '</h1>');
-    var $img = $('<img class="img-responsive img-rounded" id="' + cats[i].name + '">');
-    $img.attr('src', cats[i].imgsrc);
-    $catdiv.append($img)
-    $catdiv.appendTo('#catsrow');
-
+    $catbutton = $('<button class="btn btn-default btn-block">');
+    $catbutton.text(cats[i].name);   
     // click handler
-    $('#' + cats[i].name).click(function (e) {
-    	console.log("a cat was clicked");
-    	clicks++;
-    	$('#clicks').html(clicks);
-    });
+    $catbutton.click((function (cat) {
+    	return function () {
+    		showcat(cat);
+    	}
+    })(cats[i]));
+    $('#catlist').append($catbutton);
 	}
 
-	var clicks = 0;
-	$('#clicks').html(clicks);	
+	showcat(cats[0]);
 
 });
 
