@@ -1,3 +1,22 @@
+$(function () {
+
+	var model = {
+		currentCat: 0,
+		cats: []
+	};
+
+	var octopus = {
+		init: function () {
+			view.init();
+		}
+	};
+
+	var view = {
+		init: function () {}
+	};
+} ());
+
+/*
 var showcat = function (cat) {
 	$('#catimg').attr('src', cat.imgsrc);
 	$('#catimg').unbind('click');
@@ -25,7 +44,7 @@ $(document).ready(function () {
 
 });
 
-
+*/
 
 
 
