@@ -80,11 +80,10 @@ $(function() {
     },
     updateCat: function (name, imgsrc) {
     	var cat = this.getCurrentCat();
-    	console.log(name + ":" + imgsrc);
     	cat.name = name;
     	cat.imgsrc = imgsrc;
-    	//catlist.render();
-    	//catdetail.render();
+    	catlist.render();
+    	catdetail.render();
     },
     isAdminVisible: function () {
     	return model.admin;
@@ -94,11 +93,12 @@ $(function() {
   var catlist = {
     init: function() {
     	this.$catlistcontainer = $('#cat-list-container');   		
-    	this.catlist = octopus.getCatList();
+    	
      	this.render(); 	
     },
     render: function () {
-    	
+    	this.$catlistcontainer.html('');
+    	this.catlist = octopus.getCatList();
 			this.catlist.forEach(function (cat) {
     		var $catbutton = $('<button class="btn btn-default btn-block">');
     		$catbutton.text(cat.name);
@@ -155,10 +155,11 @@ $(function() {
   			adminFormTemplate = adminFormTemplate.replace(/{{imgsrc}}/g, cat.imgsrc);
   			this.$admincontainer.html(adminFormTemplate);
   			var adminForm = $('#admin-form');
-  			var newCatName = $('#cat-name').val();
-  			var newCatImgsrc = $('#cat-imgsrc').val();
+  			
   			adminForm.find('#submitcat').click(function (e) {
   				return function () {
+  					var newCatName = $('#cat-name').val();
+  					var newCatImgsrc = $('#cat-imgsrc').val();
 	  				octopus.updateCat(newCatName, newCatImgsrc);
   					octopus.toggleAdmin();
   				};
