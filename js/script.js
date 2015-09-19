@@ -144,33 +144,28 @@ $(function() {
   var admin = {
   	init: function () {
   		this.$admincontainer = $('#admin-container');
-  		this.$admintemplate = $('script[data-template="admin"]').html();
+  		this.$adminform = $('#admin-form');
+  		this.$adminform.find('#submitcat').click(function (e) {
+  			var newCatName = $('#cat-name').val();
+  			var newCatImgsrc = $('#cat-imgsrc').val();
+	  		octopus.updateCat(newCatName, newCatImgsrc);
+  			octopus.toggleAdmin();
+  		});
+  		this.$adminform.find('#cancelcat').click(function () {
+  			octopus.toggleAdmin();
+  		});
+
 
   	},
   	render: function () {
-  		var adminFormTemplate = '';
-  		var cat = octopus.getCurrentCat();
   		if (octopus.isAdminVisible()) {
-  			adminFormTemplate = this.$admintemplate.replace(/{{name}}/g, cat.name);
-  			adminFormTemplate = adminFormTemplate.replace(/{{imgsrc}}/g, cat.imgsrc);
-  			this.$admincontainer.html(adminFormTemplate);
-  			var adminForm = $('#admin-form');
-  			
-  			adminForm.find('#submitcat').click(function (e) {
-  				return function () {
-  					var newCatName = $('#cat-name').val();
-  					var newCatImgsrc = $('#cat-imgsrc').val();
-	  				octopus.updateCat(newCatName, newCatImgsrc);
-  					octopus.toggleAdmin();
-  				};
-  			}(this.form));
-  			adminForm.find('#cancelcat').click(function () {
-  				octopus.toggleAdmin();
-  			});
+  			var cat = octopus.getCurrentCat();
+  			this.$adminform.find('#cat-name').val(cat.name);
+  			this.$adminform.find('#cat-imgsrc').val(cat.imgsrc);
+  			this.$admincontainer.show();
   		} else {
-  			this.$admincontainer.html(adminFormTemplate);
-  		}
-  		
+  			this.$admincontainer.hide();
+  		}  		
   	}
   };
 

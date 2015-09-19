@@ -1,20 +1,32 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta name="viewport" content="width=device-width">
   <title>Cat Clicker</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
   <div class="row">
-  	<div class="col-md-2">
-  	  <h2 class="text-center">Available Cats</h1>
-  	  <div id="cat-list-container">
-  			
-  		</div>
-  		<div id="admin-container"></div>
-  	</div>
+    <div class="col-md-2">
+      <h2 class="text-center">Available Cats</h1>
+  	  <div id="cat-list-container"></div>
+			<div id="admin-container" style="display: none;">
+				<form id="admin-form">
+  				<div class="form-group">
+    				<label for="cat-name">Cat name: </label>
+    				<input type="text" class="form-control" name="cat-name" id="cat-name"></input>
+    				<label for="cat-imgsrc">Image source file: </label>
+    				<input type="text" class="form-control" name="cat-imgsrc" id="cat-imgsrc"></input>
+    				<button type="button" id="submitcat" class="btn btn-default">Submit</button>
+    				<button type="button" id="cancelcat" class="btn btn-default">Cancel</button>
+  				</div>
+				</form>
+			</div>
+		</div>
+
   	<div class="col-md-10">
   	  <div id="cat-detail-container">
   	  	<img class="img-responsive img-rounded center-block" id="img">
@@ -24,16 +36,7 @@
   </div>
 
   <script type="text/template" data-template="admin">
-    <form id="admin-form">
-      <div class="form-group">
-    		<label for="cat-name">Cat name: </label>
-    		<input type="text" class="form-control" name="cat-name" id="cat-name" value="{{name}}"></input>
-    		<label for="cat-imgsrc">Image source file: </label>
-    		<input type="text" class="form-control" name="cat-imgsrc" id="cat-imgsrc" value="{{imgsrc}}"></input>
-    		<button type="button" id="submitcat" class="btn btn-default">Submit</button>
-    		<button type="button" id="cancelcat" class="btn btn-default">Cancel</button>
-    	</div>
-    </form>
+
     </script>
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script src="js/script.js"></script>
