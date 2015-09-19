@@ -29,6 +29,9 @@ $(function() {
     }],
     debug: function () {
     	console.log(this);
+    },
+    init: function () {
+    	this.currentCat = "bc682c8035b1caf5b4c2d9a2f7fc9a59";
     }
 
   };
@@ -45,7 +48,6 @@ $(function() {
   		var selectedCats = model.cats.filter(function (cat) {
   			return cat.ucid == model.currentCat;
   		});
-  		console.log(selectedCats);
   		if (selectedCats.length == 1) {
   			return selectedCats[0];
   		} else {
@@ -59,6 +61,7 @@ $(function() {
   		catdetail.render();
   	},
     init: function() {
+    	model.init();
       catlist.init();
       catdetail.init();
     },
@@ -101,6 +104,7 @@ $(function() {
   		this.$catimg.click(function () {
   			octopus.countCurrentCatClick();
   		});
+  		this.render();
   	},
   	render: function () {
   		var cat = octopus.getCurrentCat();
