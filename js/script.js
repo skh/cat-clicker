@@ -27,6 +27,7 @@ $(function() {
       "imgsrc": "img/yt.jpg",
       "clicks": 0
     }],
+    "admin": false,
     debug: function () {
     	console.log(this);
     },
@@ -64,19 +65,40 @@ $(function() {
     	model.init();
       catlist.init();
       catdetail.init();
+      admin.init();
     },
     debug: function () {
     	model.debug();
+    },
+    toggleAdmin: function () {
+    	if (model.admin) {
+    		model.admin = false;
+    	} else {
+    		model.admin = true;
+    	}
+    	admin.render();
+    },
+    updateCat: function (name, imgsrc) {
+    	var cat = this.getCurrentCat();
+    	console.log(name + ":" + imgsrc);
+    	cat.name = name;
+    	cat.imgsrc = imgsrc;
+    	//catlist.render();
+    	//catdetail.render();
+    },
+    isAdminVisible: function () {
+    	return model.admin;
     }
   };
 
   var catlist = {
     init: function() {
-    	this.$catlistcontainer = $('#cat-list-container');
-    	this.catlist = octopus.getCatList();	
+    	this.$catlistcontainer = $('#cat-list-container');   		
+    	this.catlist = octopus.getCatList();
      	this.render(); 	
     },
     render: function () {
+    	
 			this.catlist.forEach(function (cat) {
     		var $catbutton = $('<button class="btn btn-default btn-block">');
     		$catbutton.text(cat.name);
@@ -93,6 +115,12 @@ $(function() {
     		octopus.debug();
     	});
     	this.$catlistcontainer.append($debugbutton);
+    	var $adminbutton = $('<button class="btn btn-default btn-block">');
+    	$adminbutton.text("Admin");
+    	$adminbutton.click(function () {
+    		octopus.toggleAdmin();
+    	});
+    	this.$catlistcontainer.append($adminbutton);
     }
   };
 
@@ -113,35 +141,37 @@ $(function() {
   	}
   };
 
+  var admin = {
+  	init: function () {
+  		this.$admincontainer = $('#admin-container');
+  		this.$admintemplate = $('script[data-template="admin"]').html();
+
+  	},
+  	render: function () {
+  		var adminFormTemplate = '';
+  		var cat = octopus.getCurrentCat();
+  		if (octopus.isAdminVisible()) {
+  			adminFormTemplate = this.$admintemplate.replace(/{{name}}/g, cat.name);
+  			adminFormTemplate = adminFormTemplate.replace(/{{imgsrc}}/g, cat.imgsrc);
+  			this.$admincontainer.html(adminFormTemplate);
+  			var adminForm = $('#admin-form');
+  			var newCatName = $('#cat-name').val();
+  			var newCatImgsrc = $('#cat-imgsrc').val();
+  			adminForm.find('#submitcat').click(function (e) {
+  				return function () {
+	  				octopus.updateCat(newCatName, newCatImgsrc);
+  					octopus.toggleAdmin();
+  				};
+  			}(this.form));
+  			adminForm.find('#cancelcat').click(function () {
+  				octopus.toggleAdmin();
+  			});
+  		} else {
+  			this.$admincontainer.html(adminFormTemplate);
+  		}
+  		
+  	}
+  };
+
   octopus.init();
 }());
-
-/*
-var showcat = function (cat) {
-	$('#catimg').attr('src', cat.imgsrc);
-	$('#catimg').unbind('click');
-	$('#catimg').click(function () {
-		cat.clicks++;
-		$('#catclicks').text(cat.clicks);
-	});
-	$('#catclicks').text(cat.clicks);
-};
-
-$(document).ready(function () {
-	for (var i = 0; i < cats.length; i++) {
-    $catbutton = $('<button class="btn btn-default btn-block">');
-    $catbutton.text(cats[i].name);   
-    // click handler
-    $catbutton.click((function (cat) {
-    	return function () {
-    		showcat(cat);
-    	}
-    })(cats[i]));
-    $('#catlist').append($catbutton);
-	}
-
-	showcat(cats[0]);
-
-});
-
-*/
