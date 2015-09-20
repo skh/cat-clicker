@@ -12,7 +12,9 @@
   <div class="row">
     <div class="col-md-2">
       <h2 class="text-center">Available Cats</h1>
-  	  <div id="cat-list-container"></div>
+  	  <div class="btn-group" data-bind="foreach: catList">
+        <div class="btn btn-default btn-block" data-bind="text: name, click: $parent.selectCat"></div>
+      </div>
 			<div id="admin-container" style="display: none;">
 				<form id="admin-form">
   				<div class="form-group">
@@ -28,10 +30,18 @@
 		</div>
 
   	<div class="col-md-10">
-  	  <div id="cat-detail-container">
-        <h2 class="text-center"></h2>
-  	  	<img class="img-responsive img-rounded center-block" id="img">
-  	  	<h1 class="text-center" id="clicks"></h1>
+  	  <div id="cat-detail-container" data-bind="with: currentCat">
+        <h2 class="text-center" data-bind="text: name"></h2>
+        <p class="text-center" data-bind="text: level"></p>
+  	  	<img class="img-responsive img-rounded center-block" data-bind="click: $parent.incrementCounter, 
+        attr: {src: imgSrc}">
+  	  	<h1 class="text-center" data-bind="text: clickCount"></h1>
+        <div>
+          <h3>Nicknames</h3>
+          <ul data-bind="foreach: nicknames">
+            <li data-bind="text: $data" />
+          </ul>
+        </div>
   	  </div>
   	</div>
   </div>
@@ -41,6 +51,7 @@
     </script>
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
+  <script src="js/cats.js"></script>
 	<script src="js/script.js"></script>
 </body>
 </html>
